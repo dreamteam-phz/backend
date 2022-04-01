@@ -6,7 +6,7 @@ const scoresModelSchema = new mongoose.Schema({
         type: Number
     },
     message: {
-        required: true,
+        required: false,
         type: String
     }
 });
