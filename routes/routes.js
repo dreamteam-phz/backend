@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const {Scores, Users} = require('../models/model.js');
+const cors = require('cors');
+
+router.use(cors({
+    origin:'*'
+}));
 
 //Post Method for Scores
 router.post('/postnewscore', async (req, res, next) => {
@@ -11,13 +16,12 @@ router.post('/postnewscore', async (req, res, next) => {
     });
     
     try {
-        
         // res.header("Access-Control-Allow-Origin", "http://localhost:3001/form");
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        // res.header("Access-Control-Allow-Origin", "*");
+        // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         const dataToSave = await data.save();
         res.status(200).json(dataToSave);
-        next();
+        // next();
     }
     catch (error) {
         res.status(400).json({message: error.message});
@@ -49,11 +53,11 @@ router.post('/postnewuser', async (req, res, next) => {
 //Get all Method for Scores
 router.get('/formscores', async (req, res, next) => {
     try{
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        // res.header("Access-Control-Allow-Origin", "*");
+        // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         const data = await Scores.find();
         res.json(data);
-        next();
+        // next();
         }
     catch(error){
         res.status(500).json({message: error.message});
@@ -63,11 +67,11 @@ router.get('/formscores', async (req, res, next) => {
 //Get all Method for Users
 router.get('/users', async (req, res, next) => {
     try{
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        // res.header("Access-Control-Allow-Origin", "*");
+        // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         const data = await Users.find();
         res.json(data);
-        next();
+        // next();
         }
     catch(error){
         res.status(500).json({message: error.message});
