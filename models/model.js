@@ -1,14 +1,29 @@
 const mongoose = require('mongoose');
 
-const dataSchema = new mongoose.Schema({
-    name: {
+const scoresModelSchema = new mongoose.Schema({
+    score: {
+        required: true,
+        type: Number
+    },
+    message: {
+        required: true,
+        type: String
+    }
+});
+
+const usersModelSchema = new mongoose.Schema({
+    email: {
         required: true,
         type: String
     },
-    age: {
+    password: {
         required: true,
-        type: Number
+        type: String
     }
-})
+});
 
-module.exports = mongoose.model('Data', dataSchema)
+const Scores = mongoose.model('Scores', scoresModelSchema)
+const Users = mongoose.model('Users', usersModelSchema)
+
+
+module.exports = {Scores, Users}

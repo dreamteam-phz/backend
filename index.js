@@ -1,7 +1,7 @@
 const express = require('express');
-const { render } = require('express/lib/response');
 const mongoose = require('mongoose');
 const path = require('path');
+const cors = require('cors');
 
 //import routes
 const routes = require('./routes/routes.js');
@@ -19,9 +19,8 @@ database.on('error' , (error) => {
 });
 database.once('connected', () => {
     console.log('Database Connected');
-});
-
-//end of database connection
+    // console.log(database)
+}); //end of database connection script
 
 //build up our middleware
 const app = express();
@@ -31,9 +30,26 @@ app.use(express.static(path.join(__dirname,'public')));
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use('/api',routes);
+app.use(cors({
+    origin:'*'
+}));
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
+//end of middleware
 
 app.get('/', (req,res) => {
     res.sendFile(path.join(__dirname,'index.html'));
-})
+});
+
+//const fetch = require('node-fetch');
+// app.get('/databasecontent', (req,res) =>{
+//     fetch('http://localhost:3000/api/getAll',{mode:'cors'})//GET is default method
+//         .then(data => data.json())
+//         .then(result => res.json(result))
+//         .catch(error => res.json(error));
+// })
 
 app.listen((host,port), ()=>{console.log(`Server listening at ${host}:${port}`)});
