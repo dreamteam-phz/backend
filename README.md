@@ -1,8 +1,8 @@
 # BACKEND
 
-## MongoDB database learning session.
+## MongoDB database and express server.
 
-A simple tutorial app to practice non sequal databases in MongoDB.
+Database is connected and served with an express server.
 
 Development happens in dev branch.
 
@@ -37,7 +37,7 @@ npm install
 npm start
 ```
 
-Runs the server in the development mode in http://localhost:3000
+Runs the server in the development mode in http://localhost:4000
 
 ### Open Postman and use post, get, update or delete data from the database.
 
