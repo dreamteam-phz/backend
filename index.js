@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
+const {host, port} = require('./config.json');
 
 //import routes
 const routes = require('./routes/routes.js');
@@ -24,8 +25,6 @@ database.once('connected', () => {
 
 //build up our middleware
 const app = express();
-const host  = 'https://localhost';
-const port = 3000;
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
