@@ -14,7 +14,8 @@ const surveyModelSchema = new mongoose.Schema({
 const scoresModelSchema = new mongoose.Schema({
     surveyID:{
         required:true,
-        type:String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Surveys'
     },
     results:[{
         score: {
@@ -27,25 +28,12 @@ const scoresModelSchema = new mongoose.Schema({
         },
         ip: {
             required: false,
-            type: Number
+            type: String
         }
     }]
 });
 
-const usersModelSchema = new mongoose.Schema({
-    email: {
-        required: true,
-        type: String
-    },
-    password: {
-        required: true,
-        type: String
-    }
-});
-
 const Surveys = mongoose.model('Surveys', surveyModelSchema)
 const Scores = mongoose.model('Scores', scoresModelSchema)
-const Users = mongoose.model('Users', usersModelSchema)
 
-
-module.exports = {Surveys, Scores, Users}
+module.exports = {Surveys, Scores}
