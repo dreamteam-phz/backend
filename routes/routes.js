@@ -31,27 +31,6 @@ router.post('/newsurvey', async (req, res) => {
     };
 });
 
-//Post Method for Scores
-router.post('/:id', async (req, res) => {
-
-    const data = new Scores({
-      surveyID : req.params.id,
-      results : [{
-          score : req.body.score,
-          comment : req.body.comment,
-          ip : req.body.ip
-      }]
-    });
-    
-    try {
-        const dataToSave = await data.save();
-        res.status(200).json(dataToSave);
-    }
-    catch (error) {
-        res.status(400).json({message: error.message});
-    };
-});
-
 //Get all Method for Surveys
 router.get('/surveys', async (req, res) => {
     try{
@@ -88,11 +67,16 @@ router.get('/surveys/:id', async (req, res) => {
 //Update by ID Method
 router.patch('/update/:id', async (req, res) => {
     try {
-        const id = req.params.id;
-        const updatedData = req.body;
+
+        //get previous
+        const dataToUpdate = await Scores.findOne({surveyID:req.params.id})
+        //update this constant
+        dataToUpdate.results.push(req.body.results[0])
+
+        const id = dataToUpdate._id;
         const options = { new: true };
 
-        const result = await Scores.findByIdAndUpdate(id, updatedData, options);
+        const result = await Scores.findByIdAndUpdate(id, dataToUpdate, options);
 
         res.send(result);
     }
