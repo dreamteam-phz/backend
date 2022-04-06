@@ -1,14 +1,35 @@
 const mongoose = require('mongoose');
 
-const scoresModelSchema = new mongoose.Schema({
-    score: {
+const surveyModelSchema = new mongoose.Schema({
+    question: {
         required: true,
-        type: Number
-    },
-    message: {
-        required: false,
         type: String
+    },
+    comment: {
+        required: true,
+        type: Boolean
     }
+});
+
+const scoresModelSchema = new mongoose.Schema({
+    surveyID:{
+        required:true,
+        type:String
+    },
+    results:[{
+        score: {
+            required: true,
+            type: Number
+        },
+        comment: {
+            required: false,
+            type: String
+        },
+        ip: {
+            required: false,
+            type: Number
+        }
+    }]
 });
 
 const usersModelSchema = new mongoose.Schema({
@@ -22,8 +43,9 @@ const usersModelSchema = new mongoose.Schema({
     }
 });
 
+const Surveys = mongoose.model('Surveys', surveyModelSchema)
 const Scores = mongoose.model('Scores', scoresModelSchema)
 const Users = mongoose.model('Users', usersModelSchema)
 
 
-module.exports = {Scores, Users}
+module.exports = {Surveys, Scores, Users}

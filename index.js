@@ -39,9 +39,9 @@ app.use(cors({
 // });
 //end of middleware
 
-app.get('/', (req,res) => {
-    res.sendFile(path.join(__dirname,'index.html'));
-});
+// app.get('/', (req,res) => {
+//     res.sendFile(path.join(__dirname,'index.html'));
+// });
 
 //const fetch = require('node-fetch');
 // app.get('/databasecontent', (req,res) =>{

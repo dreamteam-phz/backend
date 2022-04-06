@@ -1,83 +1,71 @@
 const express = require('express');
 const router = express.Router();
-const {Scores, Users} = require('../models/model.js');
+const {Surveys, Scores, Users} = require('../models/model.js');
 const cors = require('cors');
 
 router.use(cors({
     origin:'*'
 }));
 
-//Post Method for Scores
-router.post('/postnewscore', async (req, res, next) => {
+//Post Method for Surveys
+router.post('/newsurvey', async (req, res) => {
 
-    const data = new Scores({
-        score: req.body.score,
-        message: req.body.message,
+    const data = new Surveys({
+        question: req.body.question,
+        comment: req.body.comment,
     });
     
     try {
-        // res.header("Access-Control-Allow-Origin", "http://localhost:3001/form");
-        // res.header("Access-Control-Allow-Origin", "*");
-        // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         const dataToSave = await data.save();
         res.status(200).json(dataToSave);
-        // next();
     }
     catch (error) {
         res.status(400).json({message: error.message});
     };
 });
 
-//Post Method for Users
-router.post('/postnewuser', async (req, res, next) => {
+//Post Method for Scores
+router.post('/:id', async (req, res) => {
 
-    const data = new Users({
-        email: req.body.email,
-        password: req.body.password,
+    const data = new Scores({
+      surveyID : req.params.id,
+      results : [{
+          score : req.body.score,
+          comment : req.body.comment,
+          ip : req.body.ip
+      }]
     });
     
     try {
-        
-        // res.header("Access-Control-Allow-Origin", "http://localhost:3001/form");
-        // res.header("Access-Control-Allow-Origin", "*");
-        // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         const dataToSave = await data.save();
         res.status(200).json(dataToSave);
-        // next();
     }
     catch (error) {
         res.status(400).json({message: error.message});
+    };
+});
+
+//Get all Method for Surveys
+router.get('/surveys', async (req, res) => {
+    try{
+        const data = await Surveys.find();
+        res.json(data);
+        }
+    catch(error){
+        res.status(500).json({message: error.message});
     };
 });
 
 //Get all Method for Scores
-router.get('/formscores', async (req, res, next) => {
+router.get('/formscores', async (req, res) => {
     try{
-        // res.header("Access-Control-Allow-Origin", "*");
-        // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         const data = await Scores.find();
         res.json(data);
-        // next();
         }
     catch(error){
         res.status(500).json({message: error.message});
     };
 });
-
-//Get all Method for Users
-router.get('/users', async (req, res, next) => {
-    try{
-        // res.header("Access-Control-Allow-Origin", "*");
-        // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        const data = await Users.find();
-        res.json(data);
-        // next();
-        }
-    catch(error){
-        res.status(500).json({message: error.message});
-    };
-});
-
 
 //Get by ID Method
 router.get('/getOne/:id', async (req, res, next) => {
@@ -110,7 +98,7 @@ router.patch('/update/:id', async (req, res) => {
 router.delete('/delete/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const data = await Model.findByIdAndDelete(id);
+        const data = await Scores.findByIdAndDelete(id);
         res.send(`${data.name} has been deleted from the database`);
     }
     catch (error) {
