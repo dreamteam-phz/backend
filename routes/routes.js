@@ -1,88 +1,62 @@
 const express = require('express');
 const router = express.Router();
-const {Scores, Users} = require('../models/model.js');
+const {Surveys, Scores} = require('../models/model.js');
 const cors = require('cors');
 
 router.use(cors({
     origin:'*'
 }));
 
-//Post Method for Scores
-router.post('/postnewscore', async (req, res, next) => {
+//Post Method for Surveys
+router.post('/newsurvey', async (req, res) => {
 
-    const data = new Scores({
-        score: req.body.score,
-        message: req.body.message,
+    const data = new Surveys({
+        question: req.body.question,
+        comment: req.body.comment,
     });
     
     try {
-        // res.header("Access-Control-Allow-Origin", "http://localhost:3001/form");
-        // res.header("Access-Control-Allow-Origin", "*");
-        // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         const dataToSave = await data.save();
+        // create a scores for current survey
+        const form = new Scores({
+            surveyID: dataToSave._id,
+            results:[]
+        });
+        await form.save()
         res.status(200).json(dataToSave);
-        // next();
+        
     }
     catch (error) {
         res.status(400).json({message: error.message});
     };
 });
 
-//Post Method for Users
-router.post('/postnewuser', async (req, res, next) => {
-
-    const data = new Users({
-        email: req.body.email,
-        password: req.body.password,
-    });
-    
-    try {
-        
-        // res.header("Access-Control-Allow-Origin", "http://localhost:3001/form");
-        // res.header("Access-Control-Allow-Origin", "*");
-        // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        const dataToSave = await data.save();
-        res.status(200).json(dataToSave);
-        // next();
-    }
-    catch (error) {
-        res.status(400).json({message: error.message});
+//Get all Method for Surveys
+router.get('/surveys', async (req, res) => {
+    try{
+        const data = await Surveys.find();
+        res.json(data);
+        }
+    catch(error){
+        res.status(500).json({message: error.message});
     };
 });
 
 //Get all Method for Scores
-router.get('/formscores', async (req, res, next) => {
+router.get('/formscores', async (req, res) => {
     try{
-        // res.header("Access-Control-Allow-Origin", "*");
-        // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         const data = await Scores.find();
         res.json(data);
-        // next();
         }
     catch(error){
         res.status(500).json({message: error.message});
     };
 });
-
-//Get all Method for Users
-router.get('/users', async (req, res, next) => {
-    try{
-        // res.header("Access-Control-Allow-Origin", "*");
-        // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        const data = await Users.find();
-        res.json(data);
-        // next();
-        }
-    catch(error){
-        res.status(500).json({message: error.message});
-    };
-});
-
 
 //Get by ID Method
-router.get('/getOne/:id', async (req, res, next) => {
+router.get('/surveys/:id', async (req, res) => {
     try{
-        const data = await Scores.findById(req.params.id);
+        const data = await Surveys.findById(req.params.id);
         res.json(data);
     }
     catch(error){
@@ -93,11 +67,16 @@ router.get('/getOne/:id', async (req, res, next) => {
 //Update by ID Method
 router.patch('/update/:id', async (req, res) => {
     try {
-        const id = req.params.id;
-        const updatedData = req.body;
+
+        //get previous
+        const dataToUpdate = await Scores.findOne({surveyID:req.params.id})
+        //update this constant
+        dataToUpdate.results.push(req.body.results[0])
+
+        const id = dataToUpdate._id;
         const options = { new: true };
 
-        const result = await Model.findByIdAndUpdate(id, updatedData, options);
+        const result = await Scores.findByIdAndUpdate(id, dataToUpdate, options);
 
         res.send(result);
     }
@@ -107,11 +86,10 @@ router.patch('/update/:id', async (req, res) => {
 });
 
 //Delete by ID Method
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/survey/:id', async (req, res) => {
     try {
-        const id = req.params.id;
-        const data = await Model.findByIdAndDelete(id);
-        res.send(`${data.name} has been deleted from the database`);
+        const data = await Surveys.findByIdAndDelete(req.params.id);
+        res.send(`Survey with id ${data._id} has been deleted`);
     }
     catch (error) {
         res.status(400).json({ message: error.message });
