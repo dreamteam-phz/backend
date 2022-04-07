@@ -1,4 +1,4 @@
 {
-    "host":"http://localhost",
-    "port":4000
+  "host": "http://localhost",
+  "port": 4000
 }

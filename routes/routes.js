@@ -1,11 +1,13 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const {Surveys, Scores} = require('../models/model.js');
 const cors = require('cors');
 
-router.use(cors({
-    origin:'*'
-}));
+router.use(
+  cors({
+    origin: "*",
+  })
+);
 
 //Post Method for Surveys
 router.post('/newsurvey', async (req, res) => {
@@ -78,11 +80,10 @@ router.patch('/update/:id', async (req, res) => {
 
         const result = await Scores.findByIdAndUpdate(id, dataToUpdate, options);
 
-        res.send(result);
-    }
-    catch (error) {
-        res.status(400).json({ message: error.message });
-    };
+    res.send(result);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 });
 
 //Delete by ID Method
@@ -95,6 +96,5 @@ router.delete('/delete/survey/:id', async (req, res) => {
         res.status(400).json({ message: error.message });
     };
 });
-
 
 module.exports = router;
