@@ -12,6 +12,7 @@ router.use(
 //Post Method for Surveys
 router.post("/newsurvey", async (req, res) => {
   const data = new Surveys({
+    name: req.body.name,
     question: req.body.question,
     comment: req.body.comment,
   });
