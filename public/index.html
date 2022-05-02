@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/styles.css" />
     <title>Database</title>
 </head>
 <body>
-    Hello, I am a database :)!
     <main>
-        <h1>What do you want to do in this database?</h1>
-        <a href="/pages/00getFromDatabase.html"><button>PRINT DATABASE content on screen</button></a>
-        <a href="/pages/02postToDatabase.html"><button>Post to database</button></a>
-        <a href="/pages/03removeFromDatabase.html"><button>Delete from database</button></a>
+        <h1>Hello, I am your surveys/scores database :)!</h1>
+        <h2>What do you want to do?</h2>
+        <a href="/pages/00getFromDatabase.html"><button>Print all surveys on screen</button></a>
+        <a href="/pages/03removeFromDatabase.html"><button>Delete survey from database</button></a>
         <form action="/api/formscores">
-            <button>Get data in JSON format</button>
+            <button>Get SCORES in JSON format</button>
         </form>
         <!-- testing iframe by dreamTeam -->
-        <iframe src="http://localhost:3000/form" frameborder="0" width="100%" height="500px" ></iframe>
+        <!-- <iframe src="http://localhost:3000/form" frameborder="0" width="100%" height="500px" ></iframe> -->
     </main>
 </body>
 </html>
