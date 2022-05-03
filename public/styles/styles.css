@@ -1,5 +1,5 @@
 h1 {
-  color: green;
+  color: black;
 }
 
 main {
@@ -44,4 +44,18 @@ button {
 .error {
   border: dashed red 2px;
   padding: 2em;
+}
+
+a,
+form {
+  border: solid 1px black;
+  border-radius: 5px;
+  background-color: lightgrey;
+  margin-bottom: 5px;
+}
+
+a:hover,
+form:hover {
+  cursor: pointer;
+  background-color: lightgreen;
 }
