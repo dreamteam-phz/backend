@@ -6,11 +6,15 @@
   "scripts": {
     "prestart": "npm run license",
     "license": "./node_modules/.bin/license-to-fail ./config/license-checker-config.js",
-    "start": "nodemon index.js"
+    "start": "nodemon server.js",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "devDependencies": {
+    "jest": "^28.0.3",
     "license-checker": "^25.0.1",
-    "license-to-fail": "^4.0.0"
+    "license-to-fail": "^4.0.0",
+    "supertest": "^6.2.3"
   },
   "dependencies": {
     "cors": "^2.8.5",
