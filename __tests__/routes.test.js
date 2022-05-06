@@ -4,7 +4,7 @@ const supertest = require("supertest");
 describe("Surveys", () => {
   describe("get survey route", () => {
     describe("getting surveys", () => {
-      it("Should return the number of surveys", async () => {
+      it("Verify that we connect successfully to the DB", async () => {
         await supertest(app).get("/api/surveys").expect(200);
       });
     });
