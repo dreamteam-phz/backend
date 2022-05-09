@@ -13,18 +13,28 @@
     }//end of init
 
     async function send(){
-        clearMessage();
-        const surveyID = surveyIdField.value;
-
+        // clearMessage();
+        const _id = surveyIdField.value;
+        
         try{
             const options = {
                 method:'POST',
-                body: JSON.stringify({surveyID}),
+                body: JSON.stringify({_id}),
                 headers:{
                     'Content-Type':'application/json'
                 }
             }
-            const data = await fetch('api/delete/surveys',options);
+            const data = await fetch('/api/delete/survey',options);
+
+            console.log(data)
+
+            const result = await data.json();
+
+            console.log(result)
+
+            if(result.message){
+                console.log(result.message);
+            }
 
 
 
@@ -34,4 +44,4 @@
         }
     }
 
-})
+})();
